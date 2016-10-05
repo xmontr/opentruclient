@@ -1,0 +1,1 @@
+jpm run -o "C:\newsdkversion\addon-sdk-master"

@@ -1,0 +1,355 @@
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://global/content/contentAreaUtils.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/browser.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://global/content/inlineSpellCheckUI.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/nsContextMenu.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/web-panels.js" />
+<stringbundleset
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="stringbundleset">
+	<stringbundle id="bundle_browser"
+		src="chrome://browser/locale/browser.properties" />
+</stringbundleset>
+<broadcasterset
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="mainBroadcasterSet">
+	<broadcaster id="isFrameImage" />
+</broadcasterset>
+<commandset
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="mainCommandset">
+	<command id="Browser:Back" oncommand="getPanelBrowser().webNavigation.goBack();"
+		disabled="true" />
+	<command id="Browser:Forward" oncommand="getPanelBrowser().webNavigation.goForward();"
+		disabled="true" />
+	<command id="Browser:Stop" oncommand="PanelBrowserStop();" />
+	<command id="Browser:Reload" oncommand="PanelBrowserReload();" />
+</commandset>
+<popupset
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="mainPopupSet">
+	<tooltip id="aHTMLTooltip" page="true" style="direction: ltr;" />
+	<menupopup id="contentAreaContextMenu" pagemenu="start"
+		onpopupshowing="if (event.target != this)                                  return true;                                gContextMenu = new nsContextMenu(this, event.shiftKey);                                if (gContextMenu.shouldDisplay)                                  document.popupNode = this.triggerNode;                                return gContextMenu.shouldDisplay;"
+		onpopuphiding="if (event.target != this)                                 return;                               gContextMenu.hiding();                               gContextMenu = null;">
+		<menugroup id="context-navigation">
+			<menuitem id="context-back" class="menuitem-iconic"
+				tooltiptext="Go back one page" aria-label="Back"
+				command="Browser:BackOrBackDuplicate" onclick="checkForMiddleClick(this, event);" />
+			<menuitem id="context-forward" class="menuitem-iconic"
+				tooltiptext="Go forward one page" aria-label="Forward"
+				command="Browser:ForwardOrForwardDuplicate" onclick="checkForMiddleClick(this, event);" />
+			<menuitem id="context-reload" class="menuitem-iconic"
+				tooltiptext="Reload current page" aria-label="Reload"
+				oncommand="gContextMenu.reload(event);" onclick="checkForMiddleClick(this, event);"
+				hidden="true" />
+			<menuitem id="context-stop" class="menuitem-iconic"
+				tooltiptext="Stop loading this page" aria-label="Stop" command="Browser:Stop" />
+			<menuitem id="context-bookmarkpage" class="menuitem-iconic"
+				tooltiptext="Bookmark This Page" aria-label="Bookmark This Page"
+				oncommand="gContextMenu.bookmarkThisPage();" />
+		</menugroup>
+		<menuseparator id="context-sep-navigation" />
+		<menuseparator id="page-menu-separator" hidden="true" />
+		<menuitem id="spell-no-suggestions" disabled="true"
+			label="(No Spelling Suggestions)" hidden="true" />
+		<menuitem id="spell-add-to-dictionary" label="Add to Dictionary"
+			accesskey="o" oncommand="InlineSpellCheckerUI.addToDictionary();"
+			hidden="true" />
+		<menuitem id="spell-undo-add-to-dictionary" label="Undo Add To Dictionary"
+			accesskey="n" oncommand="InlineSpellCheckerUI.undoAddToDictionary();"
+			hidden="true" />
+		<menuseparator id="spell-suggestions-separator" hidden="true" />
+		<menuitem id="context-openlinkincurrent" label="Open Link"
+			accesskey="O" oncommand="gContextMenu.openLinkInCurrent();" hidden="true" />
+		<menuitem id="context-openlinkintab" label="Open Link in New Tab"
+			accesskey="T" oncommand="gContextMenu.openLinkInTab();" hidden="true" />
+		<menuitem id="context-openlink" label="Open Link in New Window"
+			accesskey="W" oncommand="gContextMenu.openLink();" hidden="true" />
+		<menuitem id="context-openlinkprivate" label="Open Link in New Private Window"
+			accesskey="P" oncommand="gContextMenu.openLinkInPrivateWindow();"
+			hidden="true" />
+		<menuseparator id="context-sep-open" hidden="true" />
+		<menuitem id="context-bookmarklink" label="Bookmark This Link"
+			accesskey="L" oncommand="gContextMenu.bookmarkLink();" hidden="true" />
+		<menuitem id="context-sharelink" label="Share This Link"
+			accesskey="h" oncommand="gContextMenu.shareLink();" hidden="true" />
+		<menuitem id="context-savelink" label="Save Link As…"
+			accesskey="k" oncommand="gContextMenu.saveLink();" hidden="true" />
+		<menuitem id="context-savelinktopocket" label="Save Link to Pocket"
+			accesskey="o" oncommand="gContextMenu.saveLinkToPocket();" hidden="true" />
+		<menu id="context-marklinkMenu" label="Save Link To…" accesskey="L"
+			hidden="true">
+			<menupopup />
+		</menu>
+		<menuitem id="context-copyemail" label="Copy Email Address"
+			accesskey="E" oncommand="gContextMenu.copyEmail();" hidden="true" />
+		<menuitem id="context-copylink" label="Copy Link Location"
+			accesskey="a" oncommand="gContextMenu.copyLink();" hidden="true" />
+		<menuseparator id="context-sep-copylink" hidden="true" />
+		<menuitem id="context-media-play" label="Play" accesskey="P"
+			oncommand="gContextMenu.mediaCommand('play');" hidden="true" />
+		<menuitem id="context-media-pause" label="Pause" accesskey="P"
+			oncommand="gContextMenu.mediaCommand('pause');" hidden="true" />
+		<menuitem id="context-media-mute" label="Mute" accesskey="M"
+			oncommand="gContextMenu.mediaCommand('mute');" hidden="true" />
+		<menuitem id="context-media-unmute" label="Unmute" accesskey="m"
+			oncommand="gContextMenu.mediaCommand('unmute');" hidden="true" />
+		<menu id="context-media-playbackrate" label="Play Speed"
+			accesskey="l" hidden="true">
+			<menupopup>
+				<menuitem id="context-media-playbackrate-050x" label="Slow Motion (0.5×)"
+					accesskey="S" type="radio" name="playbackrate"
+					oncommand="gContextMenu.mediaCommand('playbackRate', 0.5);" />
+				<menuitem id="context-media-playbackrate-100x" label="Normal Speed"
+					accesskey="N" type="radio" name="playbackrate" checked="true"
+					oncommand="gContextMenu.mediaCommand('playbackRate', 1.0);" />
+				<menuitem id="context-media-playbackrate-150x" label="High Speed (1.5×)"
+					accesskey="H" type="radio" name="playbackrate"
+					oncommand="gContextMenu.mediaCommand('playbackRate', 1.5);" />
+				<menuitem id="context-media-playbackrate-200x" label="Ludicrous Speed (2×)"
+					accesskey="L" type="radio" name="playbackrate"
+					oncommand="gContextMenu.mediaCommand('playbackRate', 2.0);" />
+			</menupopup>
+		</menu>
+		<menuitem id="context-media-showcontrols" label="Show Controls"
+			accesskey="C" oncommand="gContextMenu.mediaCommand('showcontrols');"
+			hidden="true" />
+		<menuitem id="context-media-hidecontrols" label="Hide Controls"
+			accesskey="C" oncommand="gContextMenu.mediaCommand('hidecontrols');"
+			hidden="true" />
+		<menuitem id="context-video-showstats" accesskey="t"
+			label="Show Statistics" oncommand="gContextMenu.mediaCommand('showstats');"
+			hidden="true" />
+		<menuitem id="context-video-hidestats" accesskey="t"
+			label="Hide Statistics" oncommand="gContextMenu.mediaCommand('hidestats');"
+			hidden="true" />
+		<menuitem id="context-video-fullscreen" accesskey="F"
+			label="Full Screen" oncommand="gContextMenu.mediaCommand('fullscreen');"
+			hidden="true" />
+		<menuitem id="context-leave-dom-fullscreen" accesskey="u"
+			label="Exit Full Screen" oncommand="gContextMenu.leaveDOMFullScreen();"
+			hidden="true" />
+		<menuseparator id="context-media-sep-commands" hidden="true" />
+		<menuitem id="context-reloadimage" label="Reload Image"
+			accesskey="R" oncommand="gContextMenu.reloadImage();" hidden="true" />
+		<menuitem id="context-viewimage" label="View Image"
+			accesskey="I" oncommand="gContextMenu.viewMedia(event);" onclick="checkForMiddleClick(this, event);"
+			hidden="true" />
+		<menuitem id="context-viewvideo" label="View Video"
+			accesskey="I" oncommand="gContextMenu.viewMedia(event);" onclick="checkForMiddleClick(this, event);"
+			hidden="true" disabled="true" />
+		<menuitem id="context-copyimage-contents" label="Copy Image"
+			accesskey="y" oncommand="goDoCommand('cmd_copyImage');" hidden="true" />
+		<menuitem id="context-copyimage" label="Copy Image Location"
+			accesskey="o" oncommand="gContextMenu.copyMediaLocation();" hidden="true" />
+		<menuitem id="context-copyvideourl" label="Copy Video Location"
+			accesskey="o" oncommand="gContextMenu.copyMediaLocation();" hidden="true"
+			disabled="true" />
+		<menuitem id="context-copyaudiourl" label="Copy Audio Location"
+			accesskey="o" oncommand="gContextMenu.copyMediaLocation();" hidden="true"
+			disabled="true" />
+		<menuseparator id="context-sep-copyimage" hidden="true" />
+		<menuitem id="context-saveimage" label="Save Image As…"
+			accesskey="v" oncommand="gContextMenu.saveMedia();" hidden="true" />
+		<menuitem id="context-shareimage" label="Share This Image"
+			accesskey="r" oncommand="gContextMenu.shareImage();" hidden="true" />
+		<menuitem id="context-sendimage" label="Email Image…"
+			accesskey="g" oncommand="gContextMenu.sendMedia();" hidden="true" />
+		<menuitem id="context-setDesktopBackground" label="Set As Desktop Background…"
+			accesskey="S" oncommand="gContextMenu.setDesktopBackground();"
+			hidden="true" />
+		<menuitem id="context-viewimageinfo" label="View Image Info"
+			accesskey="f" oncommand="gContextMenu.viewImageInfo();" hidden="true" />
+		<menuitem id="context-viewimagedesc" label="View Description"
+			accesskey="D" oncommand="gContextMenu.viewImageDesc(event);" onclick="checkForMiddleClick(this, event);"
+			hidden="true" />
+		<menuitem id="context-savevideo" label="Save Video As…"
+			accesskey="v" oncommand="gContextMenu.saveMedia();" hidden="true"
+			disabled="true" />
+		<menuitem id="context-sharevideo" label="Share This Video"
+			accesskey="r" oncommand="gContextMenu.shareVideo();" hidden="true"
+			disabled="true" />
+		<menuitem id="context-saveaudio" label="Save Audio As…"
+			accesskey="v" oncommand="gContextMenu.saveMedia();" hidden="true"
+			disabled="true" />
+		<menuitem id="context-video-saveimage" accesskey="S"
+			label="Save Snapshot As…" oncommand="gContextMenu.saveVideoFrameAsImage();"
+			hidden="true" />
+		<menuitem id="context-sendvideo" label="Email Video…"
+			accesskey="a" oncommand="gContextMenu.sendMedia();" hidden="true"
+			disabled="true" />
+		<menu id="context-castvideo" label="Send Video To Device"
+			accesskey="e" hidden="true" disabled="true">
+			<menupopup id="context-castvideo-popup" onpopupshowing="gContextMenu.populateCastVideoMenu(this)" />
+		</menu>
+		<menuitem id="context-sendaudio" label="Email Audio…"
+			accesskey="a" oncommand="gContextMenu.sendMedia();" hidden="true"
+			disabled="true" />
+		<menuitem id="context-ctp-play" label="Activate this plugin"
+			accesskey="c" oncommand="gContextMenu.playPlugin();" hidden="true" />
+		<menuitem id="context-ctp-hide" label="Hide this plugin"
+			accesskey="H" oncommand="gContextMenu.hidePlugin();" hidden="true" />
+		<menuseparator id="context-sep-ctp" hidden="true" />
+		<menuitem id="context-sharepage" label="Share This Page"
+			accesskey="s" oncommand="SocialShare.sharePage();" hidden="true" />
+		<menuitem id="context-savepage" label="Save Page As…"
+			accesskey="P" oncommand="gContextMenu.savePageAs();" />
+		<menuitem id="context-pocket" label="Save Page to Pocket"
+			accesskey="k" oncommand="gContextMenu.savePageToPocket();" hidden="true" />
+		<menu id="context-markpageMenu" label="Save Page To…" accesskey="P"
+			hidden="true">
+			<menupopup />
+		</menu>
+		<menuseparator id="context-sep-viewbgimage" />
+		<menuitem id="context-viewbgimage" label="View Background Image"
+			accesskey="w" oncommand="gContextMenu.viewBGImage(event);" onclick="checkForMiddleClick(this, event);" />
+		<menuitem id="context-undo" label="Undo" accesskey="U"
+			command="cmd_undo" hidden="true" disabled="true" />
+		<menuseparator id="context-sep-undo" hidden="true" />
+		<menuitem id="context-cut" label="Cut" accesskey="t" command="cmd_cut"
+			hidden="true" disabled="true" />
+		<menuitem id="context-copy" label="Copy" accesskey="C"
+			command="cmd_copy" hidden="true" disabled="true" />
+		<menuitem id="context-paste" label="Paste" accesskey="P"
+			command="cmd_paste" hidden="true" disabled="true" />
+		<menuitem id="context-delete" label="Delete" accesskey="D"
+			command="cmd_delete" hidden="true" disabled="true" />
+		<menuseparator id="context-sep-paste" hidden="true" />
+		<menuitem id="context-selectall" label="Select All"
+			accesskey="A" command="cmd_selectAll" />
+		<menuseparator id="context-sep-selectall" hidden="true" />
+		<menuitem id="context-keywordfield" label="Add a Keyword for this Search…"
+			accesskey="K" oncommand="AddKeywordForSearchField();" hidden="true" />
+		<menuitem id="context-searchselect"
+			oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms);"
+			hidden="true" />
+		<menuitem id="context-shareselect" label="Share Selection"
+			accesskey="r" oncommand="gContextMenu.shareSelect();" hidden="true" />
+		<menuseparator id="frame-sep" hidden="true" />
+		<menu id="frame" label="This Frame" accesskey="h" hidden="true">
+			<menupopup>
+				<menuitem id="context-showonlythisframe" label="Show Only This Frame"
+					accesskey="S" oncommand="gContextMenu.showOnlyThisFrame();" />
+				<menuitem id="context-openframeintab" label="Open Frame in New Tab"
+					accesskey="T" oncommand="gContextMenu.openFrameInTab();" />
+				<menuitem id="context-openframe" label="Open Frame in New Window"
+					accesskey="W" oncommand="gContextMenu.openFrame();" />
+				<menuseparator id="open-frame-sep" />
+				<menuitem id="context-reloadframe" label="Reload Frame"
+					accesskey="R" oncommand="gContextMenu.reloadFrame();" />
+				<menuseparator />
+				<menuitem id="context-bookmarkframe" label="Bookmark This Frame"
+					accesskey="m" oncommand="gContextMenu.addBookmarkForFrame();" />
+				<menuitem id="context-saveframe" label="Save Frame As…"
+					accesskey="F" oncommand="gContextMenu.saveFrame();" />
+				<menuseparator />
+				<menuitem id="context-printframe" label="Print Frame…"
+					accesskey="P" oncommand="gContextMenu.printFrame();" />
+				<menuseparator />
+				<menuitem id="context-viewframesource" label="View Frame Source"
+					accesskey="V" oncommand="gContextMenu.viewFrameSource();" observes="isFrameImage" />
+				<menuitem id="context-viewframeinfo" label="View Frame Info"
+					accesskey="I" oncommand="gContextMenu.viewFrameInfo();" />
+			</menupopup>
+		</menu>
+		<menuitem id="context-viewpartialsource-selection" label="View Selection Source"
+			accesskey="e" oncommand="gContextMenu.viewPartialSource('selection');"
+			observes="isImage" hidden="true" />
+		<menuitem id="context-viewpartialsource-mathml" label="View MathML Source"
+			accesskey="e" oncommand="gContextMenu.viewPartialSource('mathml');"
+			observes="isImage" hidden="true" />
+		<menuseparator id="context-sep-viewsource" />
+		<menuitem id="context-viewsource" label="View Page Source"
+			accesskey="V"
+			oncommand="BrowserViewSourceOfDocument(gContextMenu.browser.contentDocumentAsCPOW);"
+			observes="isImage" />
+		<menuitem id="context-viewinfo" label="View Page Info"
+			accesskey="I" oncommand="gContextMenu.viewInfo();" />
+		<menuseparator id="spell-separator" hidden="true" />
+		<menuitem id="spell-check-enabled" label="Check Spelling"
+			type="checkbox" accesskey="g"
+			oncommand="InlineSpellCheckerUI.toggleEnabled(window);" hidden="true"
+			checked="false" />
+		<menuitem id="spell-add-dictionaries-main" label="Add Dictionaries…"
+			accesskey="A" oncommand="gContextMenu.addDictionaries();" hidden="true" />
+		<menu id="spell-dictionaries" label="Languages" accesskey="l"
+			hidden="true">
+			<menupopup id="spell-dictionaries-menu">
+				<menuseparator id="spell-language-separator" />
+				<menuitem id="spell-add-dictionaries" label="Add Dictionaries…"
+					accesskey="A" oncommand="gContextMenu.addDictionaries();" />
+			</menupopup>
+		</menu>
+		<menuseparator hidden="true" id="context-sep-bidi" />
+		<menuitem hidden="true" id="context-bidi-text-direction-toggle"
+			label="Switch Text Direction" accesskey="w" command="cmd_switchTextDirection"
+			disabled="true" />
+		<menuitem hidden="true" id="context-bidi-page-direction-toggle"
+			label="Switch Page Direction" accesskey="D"
+			oncommand="gContextMenu.switchPageDirection();" />
+		<menuseparator id="inspect-separator" />
+		<menuitem id="context-inspect" label="Inspect Element"
+			accesskey="Q" oncommand="gContextMenu.inspectNode();" />
+		<menuseparator id="context-media-eme-separator" hidden="true" />
+		<menuitem id="context-media-eme-learnmore" class="menuitem-iconic"
+			hidden="true" label="Learn more about DRM…" accesskey="D"
+			oncommand="gContextMenu.drmLearnMore(event);" onclick="checkForMiddleClick(this, event);" />
+		<menuseparator class="addon-context-menu-separator" />
+		<menu class="addon-context-menu-item addon-context-menu-item-toplevel"
+			label="Montrigen">
+			<menupopup>
+				<menuitem class="addon-context-menu-item" label="Container Action"
+					value="container" />
+				<menuitem class="addon-context-menu-item" label="step Action"
+					value="step" />
+			</menupopup>
+		</menu>
+	</menupopup>
+</popupset>
+<commandset
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="editMenuCommands">
+	<commandset id="editMenuCommandSetAll" commandupdater="true"
+		events="focus,select" oncommandupdate="goUpdateGlobalEditMenuItems()" />
+	<commandset id="editMenuCommandSetUndo" commandupdater="true"
+		events="undo" oncommandupdate="goUpdateUndoEditMenuItems()" />
+	<commandset id="editMenuCommandSetPaste" commandupdater="true"
+		events="clipboard" oncommandupdate="goUpdatePasteMenuItems()" />
+	<command id="cmd_undo" oncommand="goDoCommand('cmd_undo')"
+		disabled="true" />
+	<command id="cmd_redo" oncommand="goDoCommand('cmd_redo')"
+		disabled="true" />
+	<command id="cmd_cut" oncommand="goDoCommand('cmd_cut')"
+		disabled="true" />
+	<command id="cmd_copy" oncommand="goDoCommand('cmd_copy')"
+		disabled="true" />
+	<command id="cmd_paste" oncommand="goDoCommand('cmd_paste')"
+		disabled="true" />
+	<command id="cmd_delete" oncommand="goDoCommand('cmd_delete')"
+		disabled="true" />
+	<command id="cmd_selectAll" oncommand="goDoCommand('cmd_selectAll')" />
+	<command id="cmd_switchTextDirection" oncommand="goDoCommand('cmd_switchTextDirection');"
+		disabled="true" />
+</commandset>
+<browser xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="web-panels-browser" persist="cachedurl" type="content" flex="1"
+	context="contentAreaContextMenu" tooltip="aHTMLTooltip"
+	onclick="window.parent.contentAreaClick(event, true);" cachedurl="resource://jid1-lgtztabxegy5ra-at-jetpack/data/sideBar.html"
+	clickthrough="never" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://global/content/editMenuOverlay.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://global/content/globalOverlay.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/utilityOverlay.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/places/controller.js" />
+<script xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	type="application/javascript" src="chrome://browser/content/places/treeView.js" />

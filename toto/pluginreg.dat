@@ -1,0 +1,151 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version|0.17|$
+Arch|x86-msvc|$
+
+[PLUGINS]
+nppdf32.dll|$
+C:\Program Files (x86)\Adobe\Reader 11.0\Reader\browser\nppdf32.dll|$
+11.0.16.13|$
+1461411162000|0|0|0|$
+Adobe PDF Plug-In For Firefox and Netscape 11.0.16|$
+Adobe Acrobat|$
+7
+0|application/pdf|Acrobat Portable Document Format|pdf|$
+1|application/vnd.adobe.pdfxml|Adobe PDF in XML Format|pdfxml|$
+2|application/vnd.adobe.x-mars|Adobe PDF in XML Format|mars|$
+3|application/vnd.fdf|Acrobat Forms Data Format|fdf|$
+4|application/vnd.adobe.xfdf|XML Version of Acrobat Forms Data Format|xfdf|$
+5|application/vnd.adobe.xdp+xml| Acrobat XML Data Package|xdp|$
+6|application/vnd.adobe.xfd+xml|Adobe FormFlow99 Data File|xfd|$
+nppdf32.dll|$
+C:\Program Files (x86)\Adobe\Reader 11.0\Reader\AIR\nppdf32.dll|$
+11.0.16.13|$
+1461411162000|0|0|0|$
+Adobe PDF Plug-In For Firefox and Netscape 11.0.16|$
+Adobe Acrobat|$
+7
+0|application/pdf|Acrobat Portable Document Format|pdf|$
+1|application/vnd.adobe.pdfxml|Adobe PDF in XML Format|pdfxml|$
+2|application/vnd.adobe.x-mars|Adobe PDF in XML Format|mars|$
+3|application/vnd.fdf|Acrobat Forms Data Format|fdf|$
+4|application/vnd.adobe.xfdf|XML Version of Acrobat Forms Data Format|xfdf|$
+5|application/vnd.adobe.xdp+xml| Acrobat XML Data Package|xdp|$
+6|application/vnd.adobe.xfd+xml|Adobe FormFlow99 Data File|xfd|$
+NPAUTHZ.DLL|$
+C:\PROGRA~2\MICROS~1\Office14\NPAUTHZ.DLL|$
+14.0.4730.1010|$
+1263066138000|0|0|0|$
+Office Authorization plug-in for NPAPI browsers|$
+Microsoft Office 2010|$
+1
+0|application/x-msoffice14|14.0.4730.1010|*|$
+NPSPWRAP.DLL|$
+C:\PROGRA~2\MICROS~1\Office14\NPSPWRAP.DLL|$
+14.0.4761.1000|$
+1269454958000|0|0|0|$
+The plug-in allows you to open and edit files using Microsoft Office applications|$
+Microsoft Office 2010|$
+1
+0|application/x-sharepoint|SharePoint Plug-in for Firefox||$
+npctrl.dll|$
+c:\Program Files (x86)\Microsoft Silverlight\5.1.41212.0\npctrl.dll|$
+5.1.41212.0|$
+1449871948000|0|0|0|$
+5.1.41212.0|$
+Silverlight Plug-In|$
+2
+0|application/x-silverlight|npctrl|scr|$
+1|application/x-silverlight-2|||$
+npjp2.dll|$
+C:\Program Files (x86)\Java\jre7\bin\plugin2\npjp2.dll|$
+10.99.2.4|$
+1464697722525|0|0|0|$
+Next Generation Java Plug-in 10.99.2 for Mozilla browsers|$
+Java(TM) Platform SE 7 U99|$
+38
+0|application/x-java-applet|Java Applet||$
+1|application/x-java-bean|JavaBeans||$
+2|application/x-java-vm|||$
+3|application/x-java-applet;version=1.1.1|||$
+4|application/x-java-bean;version=1.1.1|||$
+5|application/x-java-applet;version=1.1|||$
+6|application/x-java-bean;version=1.1|||$
+7|application/x-java-applet;version=1.2|||$
+8|application/x-java-bean;version=1.2|||$
+9|application/x-java-applet;version=1.1.3|||$
+10|application/x-java-bean;version=1.1.3|||$
+11|application/x-java-applet;version=1.1.2|||$
+12|application/x-java-bean;version=1.1.2|||$
+13|application/x-java-applet;version=1.3|||$
+14|application/x-java-bean;version=1.3|||$
+15|application/x-java-applet;version=1.2.2|||$
+16|application/x-java-bean;version=1.2.2|||$
+17|application/x-java-applet;version=1.2.1|||$
+18|application/x-java-bean;version=1.2.1|||$
+19|application/x-java-applet;version=1.3.1|||$
+20|application/x-java-bean;version=1.3.1|||$
+21|application/x-java-applet;version=1.4|||$
+22|application/x-java-bean;version=1.4|||$
+23|application/x-java-applet;version=1.4.1|||$
+24|application/x-java-bean;version=1.4.1|||$
+25|application/x-java-applet;version=1.4.2|||$
+26|application/x-java-bean;version=1.4.2|||$
+27|application/x-java-applet;version=1.5|||$
+28|application/x-java-bean;version=1.5|||$
+29|application/x-java-applet;version=1.6|||$
+30|application/x-java-bean;version=1.6|||$
+31|application/x-java-applet;version=1.7|||$
+32|application/x-java-bean;version=1.7|||$
+33|application/x-java-applet;jpi-version=1.7.0_99|||$
+34|application/x-java-bean;jpi-version=1.7.0_99|||$
+35|application/x-java-vm-npruntime|||$
+36|application/x-java-applet;deploy=10.99.2|||$
+37|application/x-java-applet;javafx=2.2.95|||$
+npdeployJava1.dll|$
+C:\Program Files (x86)\Java\jre7\bin\dtplugin\npdeployJava1.dll|$
+10.99.2.4|$
+1464697722428|0|0|0|$
+NPRuntime Script Plug-in Library for Java(TM) Deploy|$
+Java Deployment Toolkit 7.0.9900.4|$
+1
+0|application/java-deployment-toolkit|||$
+np32dsw.dll|$
+C:\windows\SysWOW64\Adobe\Director\np32dsw.dll|$
+12.2.3.183|$
+1450726368000|0|0|0|$
+Adobe Shockwave for Director Netscape plug-in, version 12.2.3.183|$
+Shockwave for Director|$
+1
+0|application/x-director|Shockwave Movie|dir,dxr,dcr|$
+NPSWF32_22_0_0_192.dll|$
+C:\windows\SysWOW64\Macromed\Flash\NPSWF32_22_0_0_192.dll|$
+22.0.0.192|$
+1466425296402|0|0|0|$
+Shockwave Flash 22.0 r0|$
+Shockwave Flash|$
+2
+0|application/x-shockwave-flash|Adobe Flash movie|swf|$
+1|application/futuresplash|FutureSplash movie|spl|$
+np-mswmp.dll|$
+C:\PROGRA~2\MOZILL~1\browser\plugins\np-mswmp.dll|$
+1.0.0.8|$
+1468026850579|0|0|0|$
+np-mswmp|$
+Microsoft® Windows Media Player Firefox Plugin|$
+10
+0|application/x-ms-wmp|np-mswmp|*|$
+1|application/asx||*|$
+2|video/x-ms-asf-plugin||*|$
+3|application/x-mplayer2||*|$
+4|video/x-ms-asf||asf,asx,*|$
+5|video/x-ms-wm||wm,*|$
+6|audio/x-ms-wma||wma,*|$
+7|audio/x-ms-wax||wax,*|$
+8|video/x-ms-wmv||wmv,*|$
+9|video/x-ms-wvx||wvx,*|$
+
+[INVALID]
+c:\Program Files (x86)\Microsoft Silverlight\5.1.41212.0\npctrlui.dll|$
+1449871948000|$

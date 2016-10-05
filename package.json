@@ -1,0 +1,14 @@
+{
+  "name": "opentrueclient",
+  "title": "OpenTrueClient",
+  "id": "jid1-lGtZTABxeGy5rA@jetpack",
+  "description": "the montrigen firefox extension",
+  "author": "Xavier montrichard",
+"main":"./lib/main.js",
+  "license": "MPL 2.0",
+  "version": "0.0.1",
+  "permissions": {
+  "unsafe-content-script": true
+}
+
+}

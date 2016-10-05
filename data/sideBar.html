@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>sideBar</title>
+  <link rel="stylesheet" href="./jquery-ui.css">
+  <script src="./jquery-1.10.2.js"></script>
+  <script src="./jquery-ui.js"></script> 
+  
+  <script src="./stepView.js"></script>
+  <script src="./RemoteController.js"></script>
+ 
+  <link rel="stylesheet" href="./style.css">
+
+ 
+ 
+
+  <script>
+  
+  
+
+  
+   
+  
+  
+  document.dynStyle =    function() {
+   
+   
+   
+
+   
+ //for the step column  
+$( ".column" ).sortable({
+connectWith: ".column",
+handle: ".portlet-header",
+cancel: ".portlet-toggle",
+placeholder: "portlet-placeholder ui-corner-all",
+update:function ( event, ui ) {  var sortedIDs = $( ".column" ).sortable( "toArray" ); addon.port.emit('setContainerOrder',sortedIDs);},
+receive:onDrop
+});
+
+
+/*
+//selection des steps
+$( ".column" ).selectable({filter:".portlet-header",
+							cancel:".ui-icon-minusthick,.ui-icon-plusthick"
+						}); */
+
+//for sample step
+
+$( ".columnsample" ).sortable({
+connectWith: ".columnsample",
+handle: ".portlet-header",
+cancel: ".portlet-toggle",
+placeholder: "portlet-placeholder ui-corner-all",
+receive:onDrop
+
+});
+
+$( ".portlet" )
+.addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+.find( ".portlet-header" )
+.addClass( "ui-widget-header ui-corner-all" )
+.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+
+$( " .portlet-toggle" ).click(function() {
+var icon = $( this );
+icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
+});
+
+$( "#action step sample 1" ).selectmenu();
+
+
+
+$(".progressbar").progressbar({
+value: 0
+
+});
+
+
+
+
+
+
+
+
+
+
+} 
+  
+  
+     $(function() {
+$( "#tabs" ).tabs();
+$( "#accordion" ).accordion();
+	document.dynStyle();
+	
+	
+
+
+//drag and drop 
+ $( ".dg" ).draggable({
+ connectToSortable: ".column",
+ helper:"clone",
+ start:onDrag
+ }
+ 
+ 
+ );
+
+//loglevel management
+$("#loglevelselectid").selectmenu();
+$("#loglevelselectid").on( "selectmenuchange",loglevelChnageHandler); 
+
+
+$("#activewindowid").selectmenu();
+$("#activewindowid").on( "selectmenuchange",windowChangeHandler); 
+
+ 
+});
+
+
+function loglevelChnageHandler() {
+addon.port.emit('loglevel',this.value);
+
+}
+
+/// change handler for the selection of active window
+
+function windowChangeHandler(){
+addon.port.emit('activeWindow',this.value);
+
+}
+
+
+
+
+ 
+
+
+  </script>
+</head>
+<body   >
+
+
+<div id="load" >
+                                <img src="images/loading.gif"/>
+</div>
+
+
+
+<menu id="html5firefox8" type="context" >
+  <menuitem  label="copy" onclick="alert(this)" hint="I'm a hint"></menuitem>
+  <menuitem label="paste" onclick="alert('this')"></menuitem>
+  <menuitem label="cut" onclick="alert(this)" disabled></menuitem>
+  <hr>
+  <menu label="Container " id="mncontainerid"  >
+    <menuitem class="containermenuitem"   label="delete container" onclick="alert(this)"></menuitem>
+    <menuitem class="containermenuitem"    label="delete steps" onclick="alert(this)"></menuitem>
+   
+</menu>
+   <hr>
+  <menu label="Step "   id="mnstepid"  >
+      <menuitem class="stepmenuitem"    label="insert into" onclick="alert(this)"></menuitem>
+</menu>
+
+ </menu>
+<!--
+<span>element action:</span><span  class="dg">JS</span>
+<span  class="dg">Wait</span>
+<span class="dg">Wait-for-object</span>
+
+-->
+
+<!-- 
+ allow selection of the active window if many
+
+ -->
+<div id="windowtoolbox" class="portlet">
+<div class="portlet-header">
+<span>Window:</span>
+</div>
+<div class="portlet-content">
+<label for="activewindow">Active window</label>
+<select name="activewindowname" id="activewindowid">
+	 <option value="action1">window1</option>
+	  <option value="action2">window2</option>
+</select>
+</fieldset>
+
+</div>
+
+</div>
+
+
+ 
+<div id="browsertoolbox" class="portlet"  >
+<div class="portlet-header">
+<span>browser action:</span>
+</div>
+<div class="portlet-content">
+<div id="navigate" ><span class="dg" >Navigate</span></div>
+<div id="wait" ><span class="dg" >Wait</span></div>
+<div id="js" ><span class="dg" >Javascript</span></div>
+</div>
+</div>
+
+<div id="elementtoolbox" class="portlet"  >
+<div class="portlet-header">
+<span>object action:</span>
+</div>
+<div class="portlet-content">
+<div id="wfo" ><span class="dg" >Wait for object</span></div>
+<div id="gen" ><span class="dg" >generic object</span></div>
+
+</div>
+</div>
+
+
+
+ <br>
+ <br>
+ <br>
+<div id="tabs">
+
+  <ul>
+    <li><a href="#tabs-Options"><img  src="images/Settings-icon_16.png" />Settings</a></li>
+    <li><a href="#tabs-Script"> <img  src="images/script-icon_16.png" />Script</a></li>
+    <li><a href="#tabs-Transaction"> <img  src="images/script-icon_16.png" />Transaction</a></li>
+	<li><a href="#tabs-Function"><img  src="images/function-icon_16.png" />Function</a></li>
+    <li><a href="#tabs-sample">Sample</a></li>
+  </ul>  
+  <div id="tabs-Options">
+  
+  <!-- -->
+  <div id="accordion">
+<h3>General</h3>
+<div>
+ <fieldset>
+<label for="step">root directory</label>
+<input id="rootdirid" type="text"  name"args1"  value="" class="inputarg" />
+</fieldset>
+
+ <fieldset>
+<label for="step">folder</label>
+<input id="folderid" type="text"  name"args1"  value="" class="inputarg" />
+
+</fieldset>
+
+</div>
+<h3>Logging</h3> 
+<div>
+ <fieldset>
+<label for="step">log file</label>
+<input id="logfilepathid" type="text"  name"args1"  value="" class="inputarg" />
+</fieldset>
+<fieldset>
+<label for="step">log level</label>
+<!-- log level  -->
+<select id="loglevelselectid" class="mainselect">
+	<option value="0">ERROR</option>
+	<option value="2">INFO</option>
+	<option value="4">WARNING</option>
+	<option value="6">DEBUG</option>
+</select>
+
+</fieldset>
+</div>
+<h3>Runtime</h3>
+<div>
+<p>
+Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+</p>
+<ul>
+<li>List item one</li>
+<li>List item two</li>
+<li>List item three</li>
+</ul>
+</div>
+
+</div>
+  
+  
+  
+  
+  <!--  ontextmenu="html5firefox8"   -->
+  
+  
+  </div>
+  <div id="tabs-Script"   >
+  
+
+  
+	<div class="column" id="steplist" >
+
+
+
+
+</div>
+  
+  </div>
+  <div id="tabs-Transaction">
+  <form>
+  	<fieldset>
+  	<legend>transaction management</legend>
+  	<p>
+  	transaction<input type="text" id="transid"/>
+  	</p>
+  	<p>list of transaction:
+  		<select multiple="yes" id="transactionlistid" onchange="selectTransaction();"> 
+
+  		
+  		 </select >
+  	</p>
+  	
+  	<p>starting step:<select id="startingstepid" onchange="updateTransaction();" > </select></p>
+  	 	<p>ending step:<select id="endingstepid" onchange="updateTransaction();" > </select></p>
+  	
+  	<p>
+  	<input type= "button" value="add"   onclick="addTransaction();"/>
+  	<input type= "button" value="remove"   onclick="removeTransaction();" />
+  	
+  	</p>
+  	
+  	
+  	</fieldset>
+  
+  </form>
+  
+  
+  
+  
+  
+  </div>
+    <div id="tabs-Function">
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+  </div>
+      <div id="tabs-sample">
+	  
+	  	<div class="columnsample"  >
+		
+		
+
+<div  id="visual containerid"  class="portlet container"  contextmenu="html5firefox8">
+<div class="progressbarcontainer"></div>
+<div class="portlet-header container"><span class="numbering">-3</span>visual container</div>	
+<div class="portlet-content">
+
+	
+<div  id="step1"class="portlet"  contextmenu="html5firefox8" >
+<div class="progressbar"></div>
+<div class="portlet-header">
+	<span class="numbering">-2</span>
+	
+	<img src="images/dialog-accept.png" onclick="window.alert('play this step')"/>
+	<img src="images/dialog-cancel.png" onclick="window.alert('play this step')"/>
+	<img src="images/media-playback-start-2.png" onclick="window.alert('play this step')"/> step sample element  1
+	</div>
+<div class="portlet-content">
+ <fieldset>
+<label for="step">STEP</label>
+<select name="action" id="action step sample 1">
+	 <option value="action1">action1</option>
+	  <option value="action2">action2</option>
+</select>
+</fieldset>
+<fieldset>
+<label for="ELEMENT">ELEMENT</label>
+<div style="position:relative;"><span>xpath:</span><input type="text"  name="xpath"  value="//span[@text()]" class="inputarg" />
+<img style="position:absolute; right:-5px;" src="images/system-search-6.png"/></div>
+
+</fieldset>
+ <fieldset>
+<label for="step">ARGUMENTS</label>
+<span>args:</span><input type="text"  name"args1"  value="args1" class="inputarg" />
+</fieldset>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="basiccontainerid" class="container">
+<div class="progressbarcontainer"></div> 
+<div id="step sample browser 2"class="portlet"  >
+<div class="progressbar"></div>
+<div class="portlet-header">
+<span class="numbering">-1</span>
+<img src="images/media-playback-start-2.png" onclick="window.alert('play this step')"/> basiccontainerid step sample  browser 2</div>
+<div class="portlet-content">
+ <fieldset>
+<label for="step">STEP</label>
+<select name="action" id="action step sample 1">
+	 <option value="action1">action1</option>
+	  <option value="action2">action2</option>
+</select>
+</fieldset>
+
+ <fieldset>
+<label for="step">ARGUMENTS</label>
+<span>args:</span><input type="text"  name"args1"  value="args1" class="inputarg"  />
+</fieldset>
+</div>
+</div>
+</div>
+
+
+
+
+
+</div>
+    
+	
+	
+  </div>
+  
+  
+  
+</div>
+ 
+
+</body>
+</html>
